@@ -19,16 +19,17 @@ This repository contains perception, planning and control models of an Autonomou
 cd ~/catkin_ws/src/open_manipulator/open_manipulator_description/urdf
 rosrun xacro xacro open_manipulator.urdf.xacro > open_manipulator.urdf
 cd ~/artificial_body/scripts && ./convert_stl_to_blend.sh ~/catkin_ws/src/open_manipulator/open_manipulator_description/meshes
-
-sudo mkdir -p /opt/drake/share/drake/manipulation/models/open_manipulator/urdf
-sudo cp ~/catkin_ws/src/open_manipulator/open_manipulator_description/urdf/open_manipulator.urdf /opt/drake/share/drake/manipulation/models/open_manipulator/urdf
-sudo cp -r ~/catkin_ws/src/open_manipulator/open_manipulator_description/meshes /opt/drake/share/drake/manipulation/models/open_manipulator
-
+gz sdf -p open_manipulator.urdf > open_manipulator.sdf
 ```
 5. Run demo.ipynb
 
 ```
-cd ~/artificial_body/notebook
+cd ~/artificial_body/notebooks
 drake-visualizer&
 jupyter notebook 
 ```
+
+## Installation of OpenCR
+0. https://emanual.robotis.com/docs/en/parts/controller/opencr10/#arduino-ide
+1. https://emanual.robotis.com/docs/en/platform/openmanipulator_x/quick_start_guide/#communication-interface
+2. https://emanual.robotis.com/docs/en/platform/openmanipulator_x/quick_start_guide_basic_operation/
