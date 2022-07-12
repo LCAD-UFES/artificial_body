@@ -10,8 +10,39 @@ This repository contains perception, planning and control models of an Autonomou
 5. Run Robotis Manipulation https://emanual.robotis.com/docs/en/platform/openmanipulator_x/ros_controller_package/
 
 ## Installation of Drake Toolbox (https://drake.mit.edu)
-1. https://manipulation.csail.mit.edu/drake.html
+1. Install Drake from binary https://drake.mit.edu/from_binary.html
+```
+cd ~
+wget https://github.com/RobotLocomotion/drake/releases/download/v1.1.0/drake-20220328-mac.tar.gz
+mkdir -p env/drake
+tar -xvzf drake-20220328-mac.tar.gz -C env/drake --strip-components=1
+python3 -m venv env/drake --system-site-packages
+source env/drake/bin/activate
+env/drake/share/drake/setup/install_prereqs
+```
+1.1 Config firewall according to http://lcm-proj.github.io/multicast_setup.html
 
+2. Run the particles example
+```
+git clone https://github.com/RobotLocomotion/drake-external-examples.git
+cd drake-external-examples
+mkdir drake_cmake_installed-build && cd drake_cmake_installed-build
+cmake -DCMAKE_PREFIX_PATH=~/env/drake ../drake_cmake_installed
+make
+
+env/drake/bin/drake-visualizer &
+(cd src/particles && exec ./uniformly_accelerated_particle)
+```
+
+3. Run the kuka iiwa example
+```
+cd ~/artificial_body
+mkdir build && cd build && cmake .. && make && cd ..
+env/drake/bin/drake-visualizer &
+./build/src/kuka_iiwa_arm/kuka_simulation &
+./build/src/kuka_iiwa_arm/kuka_plan_runner &
+./build/src/kuka_iiwa_arm/move_iiwa_ee -x 0.8 -y 0.3 -z 0.25 -yaw 1.57
+```
 # Manipulation Demo
 0. Install Blender sudo apt install blender
 1. Export Open Manipulator X to URDF format
@@ -25,7 +56,7 @@ gz sdf -p open_manipulator.urdf > open_manipulator.sdf
 
 ```
 cd ~/artificial_body/notebooks
-drake-visualizer&
+drake-visualizer& or bazel run //tools:meldis -- --open-window &
 jupyter notebook 
 ```
 
